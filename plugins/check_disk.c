@@ -51,6 +51,7 @@ const char *email = "devel@nagios-plugins.org";
 # include <limits.h>
 #endif
 #include "regex.h"
+#include <human.h>
 
 #ifdef __CYGWIN__
 # include <windows.h>
@@ -111,6 +112,34 @@ static struct mount_entry *mount_list;
 
 static const char *always_exclude[] = { "iso9600", "fuse.gvfsd-fuse", NULL };
 
+#define MAX_HUMAN_COL_WIDTH 255
+typedef struct human_disk_entry {
+    int disk_result;
+
+    double free_pct;
+    uintmax_t avail_bytes;
+    uintmax_t total_bytes;
+    //char fs[MAX_HUMAN_COL_WIDTH];
+    //char mount_point[MAX_HUMAN_COL_WIDTH];
+    char *type;
+    char *mount_dir;
+
+    struct human_disk_entry* next;
+} human_disk_entry_t;
+
+typedef struct  {
+    unsigned int disk_result;
+    unsigned int free_pct;
+    unsigned int avail_bytes;
+    unsigned int total_bytes;
+    unsigned int type;
+    unsigned int mount_dir;
+} human_column_widths_t;
+human_column_widths_t human_column_widths = { 8, 6, 6, 6, 0, 0 };
+
+void print_human_disk_entries(human_disk_entry_t* human_disk_entries, unsigned num_human_disk_entries);
+int human_disk_entry_comparer(const void*, const void*);
+
 /* For long options that have no equivalent short option, use a
    non-character as a pseudo short option, starting with CHAR_MAX + 1.  */
 enum
@@ -163,7 +192,7 @@ int path_selected = FALSE;
 char *group = NULL;
 struct stat *stat_buf;
 struct name_list *seen = NULL;
-
+int human_output = 0;
 
 int
 main (int argc, char **argv)
@@ -183,6 +212,9 @@ main (int argc, char **argv)
   struct mount_entry *me;
   struct fs_usage fsp, tmpfsp;
   struct parameter_list *temp_list, *path;
+
+  human_disk_entry_t* human_disk_entries = NULL;
+  unsigned num_human_disk_entries = 0;
 
 #ifdef __CYGWIN__
   char mountdir[32];
@@ -354,6 +386,23 @@ main (int argc, char **argv)
                           TRUE, 0,
                           TRUE, path->dtotal_units));
 
+      if (human_output) {
+          human_disk_entry_t* human_disk_entry = (human_disk_entry_t*)malloc(sizeof(struct human_disk_entry));
+          human_disk_entry->mount_dir = me->me_mountdir;
+          human_disk_entry->type = me->me_type;
+          human_disk_entry->disk_result = disk_result;
+          human_disk_entry->next = human_disk_entries;
+          human_disk_entry->avail_bytes = path->dfree_units;
+          human_disk_entry->free_pct = path->dfree_pct;
+          human_disk_entry->total_bytes = path->dtotal_units;
+          human_disk_entries = human_disk_entry;
+
+          num_human_disk_entries++;
+
+          if (human_column_widths.type < strlen(me->me_type))          human_column_widths.type = strlen(me->me_type);
+          if (human_column_widths.mount_dir < strlen(me->me_mountdir)) human_column_widths.mount_dir = strlen(me->me_mountdir);
+      }
+
       if (disk_result==STATE_OK && erronly && !verbose)
         continue;
 
@@ -406,7 +455,12 @@ main (int argc, char **argv)
   } else {
     printf ("DISK %s%s%s|%s\n", state_text (result), (erronly && result==STATE_OK) ? "" : preamble, output, perf);
   }
-  return result;
+
+    if (human_output) {
+        print_human_disk_entries(&human_disk_entries[0], num_human_disk_entries);
+    }
+
+    return result;
 }
 
 
@@ -461,6 +515,7 @@ process_arguments (int argc, char **argv)
     {"kilobytes", no_argument, 0, 'k'},
     {"megabytes", no_argument, 0, 'm'},
     {"units", required_argument, 0, 'u'},
+    {"human", no_argument, 0, 'H'},
     {"path", required_argument, 0, 'p'},
     {"partition", required_argument, 0, 'p'},
     {"exclude_device", required_argument, 0, 'x'},
@@ -502,7 +557,7 @@ process_arguments (int argc, char **argv)
       strcpy (argv[c], "-t");
 
   while (1) {
-    c = getopt_long (argc, argv, "+?VqhvefCt:c:w:K:W:u:p:x:X:N:mklLg:R:r:i:I:MEAn", longopts, &option);
+    c = getopt_long (argc, argv, "+?VqhHvefCt:c:w:K:W:u:p:x:X:N:mklLg:R:r:i:I:MEAn", longopts, &option);
 
     if (c == -1 || c == EOF)
       break;
@@ -530,7 +585,7 @@ process_arguments (int argc, char **argv)
 
     /* Awful mistake where the range values do not make sense. Normally,
        you alert if the value is within the range, but since we are using
-       freespace, we have to alert if outside the range. Thus we artifically
+       freespace, we have to alert if outside the range. Thus we artificially
        force @ at the beginning of the range, so that it is backwards compatible
     */
     case 'c':                 /* critical threshold */
@@ -587,6 +642,11 @@ process_arguments (int argc, char **argv)
       if (units == NULL)
         die (STATE_UNKNOWN, _("failed allocating storage for '%s'\n"), "units");
       break;
+
+    case 'H': /* Human display */
+      human_output = 1;
+    break;
+
     case 'k': /* display mountpoint */
       mult = 1024;
       if (units)
@@ -1064,7 +1124,7 @@ get_path_stats (struct parameter_list *p, struct fs_usage *fsp) {
   p->available_to_root = fsp->fsu_bfree;
   p->used = fsp->fsu_blocks - fsp->fsu_bfree;
   if (freespace_ignore_reserved) {
-    /* option activated : we substract the root-reserved space from the total */
+    /* option activated : we subtract the root-reserved space from the total */
     p->total = fsp->fsu_blocks - p->available_to_root + p->available;
   } else {
     /* default behaviour : take all the blocks into account */
@@ -1077,4 +1137,71 @@ get_path_stats (struct parameter_list *p, struct fs_usage *fsp) {
   p->inodes_total = fsp->fsu_files;      /* Total file nodes. */
   p->inodes_free  = fsp->fsu_ffree;      /* Free file nodes. */
   np_add_name(&seen, p->best_match->me_mountdir);
+}
+
+void
+print_human_disk_entries(human_disk_entry_t* human_disk_entries, unsigned num_human_disk_entries) {
+    char avail_bytes_buf[10], total_bytes_buf[10], free_pct_buf[10];
+    int human_opts = human_autoscale | human_suppress_point_zero | human_SI | human_B;
+    const human_disk_entry_t* human_disk_entry = human_disk_entries;
+    unsigned int separator_length =
+            human_column_widths.disk_result +
+            human_column_widths.free_pct +
+            human_column_widths.avail_bytes +
+            human_column_widths.total_bytes +
+            human_column_widths.type +
+            human_column_widths.mount_dir
+            + 1; // +1 for the space in the printf below
+    char sep_buf[separator_length];
+    memset(&sep_buf[0], '-', separator_length);
+    sep_buf[separator_length] = 0;
+    printf("%s\n", &sep_buf[0]);
+
+    human_disk_entry_t** entries_table = malloc(sizeof(human_disk_entry_t*) * num_human_disk_entries);
+
+    int i = 0;
+    int num_warn = 0, num_critical = 0;
+    while (human_disk_entry != NULL) {
+        if (human_disk_entry->disk_result == STATE_CRITICAL) num_critical++;
+        if (human_disk_entry->disk_result == STATE_WARNING)  num_warn++;
+        entries_table[i++] = human_disk_entry;
+        human_disk_entry = human_disk_entry->next;
+    };
+
+    if (num_critical > 0) {
+        range* pct = parse_range_string(crit_freespace_percent);
+        printf("Critical: less than %2.1f%% is free on one or more file systems\n\n\n", pct->end);
+    } else if (num_warn > 0) {
+        range* pct = parse_range_string(warn_freespace_percent);
+        printf("Warning: less than %2.1f%% is free on one or more file systems\n\n\n", pct->end);
+    }
+
+    qsort(entries_table, num_human_disk_entries, sizeof(human_disk_entry_t*), human_disk_entry_comparer);
+
+    for (i = 0; i < num_human_disk_entries; i++) {
+        human_disk_entry = entries_table[i];
+        snprintf(&free_pct_buf[0], 9, "%2.1f%%", human_disk_entry->free_pct);
+        printf("%-*s%*s%*s%*s %-*s%-*s\n",
+               human_column_widths.disk_result, state_text(human_disk_entry->disk_result),
+               human_column_widths.free_pct, &free_pct_buf[0],
+               human_column_widths.avail_bytes,
+               human_readable (human_disk_entry->avail_bytes, avail_bytes_buf, human_opts, 1, 1),
+               human_column_widths.total_bytes,
+               human_readable (human_disk_entry->total_bytes, total_bytes_buf, human_opts, 1, 1),
+               human_column_widths.type, human_disk_entry->type,
+               human_column_widths.mount_dir, human_disk_entry->mount_dir);
+    };
+
+    free(entries_table);
+}
+int
+human_disk_entry_comparer(const void* _lhs, const void* _rhs) {
+    const human_disk_entry_t* lhs = *((human_disk_entry_t**)_lhs);
+    const human_disk_entry_t* rhs = *((human_disk_entry_t**)_rhs);
+
+    if (lhs->disk_result == rhs->disk_result) {
+        return lhs->avail_bytes > rhs->avail_bytes ? 1 : -1;
+    } else {
+        return lhs->disk_result < rhs->disk_result ? 1 : -1;
+    }
 }
