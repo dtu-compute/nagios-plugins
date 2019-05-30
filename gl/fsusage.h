@@ -1,6 +1,6 @@
 /* fsusage.h -- declarations for file system space usage info
 
-   Copyright (C) 1991-1992, 1997, 2003-2006, 2009-2013 Free Software
+   Copyright (C) 1991-1992, 1997, 2003-2006, 2009-2019 Free Software
    Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -14,12 +14,12 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* Space usage statistics for a file system.  Blocks are 512-byte. */
 
-#if !defined NAGIOS_FSUSAGE_H_INCLUDED
-# define NAGIOS_FSUSAGE_H_INCLUDED
+#if !defined FSUSAGE_H_
+# define FSUSAGE_H_
 
 # include <stdint.h>
 # include <stdbool.h>

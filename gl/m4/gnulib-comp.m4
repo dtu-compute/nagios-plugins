@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002-2019 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
 #
 # As a special exception to the GNU General Public License,
 # this file may be distributed as part of a program that
@@ -37,14 +37,28 @@ AC_DEFUN([gl_EARLY],
   m4_pattern_allow([^gl_ES$])dnl a valid locale name
   m4_pattern_allow([^gl_LIBOBJS$])dnl a variable
   m4_pattern_allow([^gl_LTLIBOBJS$])dnl a variable
+
+  # Pre-early section.
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
   AC_REQUIRE([gl_PROG_AR_RANLIB])
+
   AC_REQUIRE([AM_PROG_CC_C_O])
+  # Code from module absolute-header:
   # Code from module alloca-opt:
+  # Code from module argmatch:
   # Code from module arpa_inet:
+  # Code from module assure:
   # Code from module base64:
   # Code from module btowc:
-  # Code from module configmake:
+  # Code from module builtin-expect:
+  # Code from module byteswap:
+  # Code from module c-ctype:
+  # Code from module c-strcase:
+  # Code from module c-strcaseeq:
+  # Code from module c99:
+  # Code from module crypto/af_alg:
   # Code from module crypto/sha1:
+  # Code from module crypto/sha1-buffer:
   # Code from module dirname:
   # Code from module dirname-lgpl:
   # Code from module dosname:
@@ -54,34 +68,51 @@ AC_DEFUN([gl_EARLY],
   # Code from module error:
   # Code from module exitfail:
   # Code from module extensions:
-  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
   # Code from module extern-inline:
   # Code from module fd-hook:
+  # Code from module fflush:
+  AC_REQUIRE([AC_FUNC_FSEEKO])
   # Code from module float:
   # Code from module floorf:
+  # Code from module fpurge:
+  # Code from module freading:
+  # Code from module fseek:
+  # Code from module fseeko:
+  AC_REQUIRE([AC_FUNC_FSEEKO])
+  # Code from module fstat:
   # Code from module fsusage:
-  # Code from module full-read:
+  # Code from module ftell:
+  # Code from module ftello:
+  AC_REQUIRE([AC_FUNC_FSEEKO])
   # Code from module getaddrinfo:
+  # Code from module getdelim:
   # Code from module gethostname:
+  # Code from module getline:
   # Code from module getloadavg:
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
+  # Code from module getprogname:
   # Code from module gettext:
   # Code from module gettext-h:
+  # Code from module hard-locale:
   # Code from module havelib:
   # Code from module hostent:
+  # Code from module human:
   # Code from module idpriv-droptemp:
   # Code from module include_next:
   # Code from module inet_ntop:
   # Code from module intprops:
+  # Code from module inttypes-incomplete:
   # Code from module langinfo:
   # Code from module largefile:
   AC_REQUIRE([AC_SYS_LARGEFILE])
+  # Code from module libc-config:
+  # Code from module limits-h:
   # Code from module localcharset:
   # Code from module locale:
   # Code from module localeconv:
   # Code from module lock:
-  # Code from module malloc-gnu:
+  # Code from module lseek:
   # Code from module malloc-posix:
   # Code from module malloca:
   # Code from module math:
@@ -89,6 +120,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module mbsinit:
   # Code from module mbtowc:
   # Code from module memchr:
+  # Code from module minmax:
   # Code from module mktime:
   # Code from module mktime-internal:
   # Code from module mountlist:
@@ -99,21 +131,26 @@ AC_DEFUN([gl_EARLY],
   # Code from module netinet_in:
   # Code from module nl_langinfo:
   # Code from module nocrash:
-  # Code from module read:
+  # Code from module pathmax:
+  # Code from module quote:
+  # Code from module quotearg:
+  # Code from module quotearg-simple:
   # Code from module regex:
-  # Code from module safe-read:
   # Code from module servent:
   # Code from module setenv:
   # Code from module size_max:
   # Code from module snippet/_Noreturn:
   # Code from module snippet/arg-nonnull:
   # Code from module snippet/c++defs:
+  # Code from module snippet/unused-parameter:
   # Code from module snippet/warn-on-use:
   # Code from module snprintf:
   # Code from module socketlib:
   # Code from module sockets:
   # Code from module socklen:
   # Code from module ssize_t:
+  # Code from module stat-time:
+  # Code from module std-gnu11:
   # Code from module stdalign:
   # Code from module stdbool:
   # Code from module stddef:
@@ -132,7 +169,10 @@ AC_DEFUN([gl_EARLY],
   # Code from module strnlen:
   # Code from module strsep:
   # Code from module strstr-simple:
+  # Code from module strtoull:
+  # Code from module strtoumax:
   # Code from module sys_socket:
+  # Code from module sys_stat:
   # Code from module sys_types:
   # Code from module sys_uio:
   # Code from module threadlib:
@@ -154,6 +194,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module xalloc-oversized:
   # Code from module xsize:
   # Code from module xstrndup:
+  # Code from module xstrtol:
+  # Code from module xstrtoumax:
 ])
 
 # This macro should be invoked from ./configure.ac, in the section
@@ -182,7 +224,10 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_BTOWC
   fi
   gl_WCHAR_MODULE_INDICATOR([btowc])
-  gl_CONFIGMAKE_PREP
+  gl___BUILTIN_EXPECT
+  gl_BYTESWAP
+  gl_AF_ALG
+  AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
   gl_SHA1
   gl_DIRNAME
   gl_MODULE_INDICATOR([dirname])
@@ -200,6 +245,13 @@ AC_DEFUN([gl_INIT],
     [AM_][XGETTEXT_OPTION([--flag=error:3:c-format])
      AM_][XGETTEXT_OPTION([--flag=error_at_line:5:c-format])])
   AC_REQUIRE([gl_EXTERN_INLINE])
+  gl_FUNC_FFLUSH
+  if test $REPLACE_FFLUSH = 1; then
+    AC_LIBOBJ([fflush])
+    gl_PREREQ_FFLUSH
+  fi
+  gl_MODULE_INDICATOR([fflush])
+  gl_STDIO_MODULE_INDICATOR([fflush])
   gl_FLOAT_H
   if test $REPLACE_FLOAT_LDBL = 1; then
     AC_LIBOBJ([float])
@@ -212,11 +264,50 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([floorf])
   fi
   gl_MATH_MODULE_INDICATOR([floorf])
+  gl_FUNC_FPURGE
+  if test $HAVE_FPURGE = 0 || test $REPLACE_FPURGE = 1; then
+    AC_LIBOBJ([fpurge])
+  fi
+  gl_STDIO_MODULE_INDICATOR([fpurge])
+  gl_FUNC_FREADING
+  gl_FUNC_FSEEK
+  if test $REPLACE_FSEEK = 1; then
+    AC_LIBOBJ([fseek])
+  fi
+  gl_STDIO_MODULE_INDICATOR([fseek])
+  gl_FUNC_FSEEKO
+  if test $HAVE_FSEEKO = 0 || test $REPLACE_FSEEKO = 1; then
+    AC_LIBOBJ([fseeko])
+    gl_PREREQ_FSEEKO
+  fi
+  gl_STDIO_MODULE_INDICATOR([fseeko])
+  gl_FUNC_FSTAT
+  if test $REPLACE_FSTAT = 1; then
+    AC_LIBOBJ([fstat])
+    case "$host_os" in
+      mingw*)
+        AC_LIBOBJ([stat-w32])
+        ;;
+    esac
+    gl_PREREQ_FSTAT
+  fi
+  gl_SYS_STAT_MODULE_INDICATOR([fstat])
   gl_FSUSAGE
   if test $gl_cv_fs_space = yes; then
     AC_LIBOBJ([fsusage])
     gl_PREREQ_FSUSAGE_EXTRA
   fi
+  gl_FUNC_FTELL
+  if test $REPLACE_FTELL = 1; then
+    AC_LIBOBJ([ftell])
+  fi
+  gl_STDIO_MODULE_INDICATOR([ftell])
+  gl_FUNC_FTELLO
+  if test $HAVE_FTELLO = 0 || test $REPLACE_FTELLO = 1; then
+    AC_LIBOBJ([ftello])
+    gl_PREREQ_FTELLO
+  fi
+  gl_STDIO_MODULE_INDICATOR([ftello])
   gl_GETADDRINFO
   if test $HAVE_GETADDRINFO = 0; then
     AC_LIBOBJ([getaddrinfo])
@@ -225,12 +316,24 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([gai_strerror])
   fi
   gl_NETDB_MODULE_INDICATOR([getaddrinfo])
+  gl_FUNC_GETDELIM
+  if test $HAVE_GETDELIM = 0 || test $REPLACE_GETDELIM = 1; then
+    AC_LIBOBJ([getdelim])
+    gl_PREREQ_GETDELIM
+  fi
+  gl_STDIO_MODULE_INDICATOR([getdelim])
   gl_FUNC_GETHOSTNAME
   if test $HAVE_GETHOSTNAME = 0; then
     AC_LIBOBJ([gethostname])
     gl_PREREQ_GETHOSTNAME
   fi
   gl_UNISTD_MODULE_INDICATOR([gethostname])
+  gl_FUNC_GETLINE
+  if test $REPLACE_GETLINE = 1; then
+    AC_LIBOBJ([getline])
+    gl_PREREQ_GETLINE
+  fi
+  gl_STDIO_MODULE_INDICATOR([getline])
   gl_GETLOADAVG
   if test $HAVE_GETLOADAVG = 0; then
     AC_LIBOBJ([getloadavg])
@@ -238,29 +341,24 @@ AC_DEFUN([gl_INIT],
   fi
   gl_STDLIB_MODULE_INDICATOR([getloadavg])
   gl_FUNC_GETOPT_GNU
-  if test $REPLACE_GETOPT = 1; then
-    AC_LIBOBJ([getopt])
-    AC_LIBOBJ([getopt1])
-    gl_PREREQ_GETOPT
-    dnl Arrange for unistd.h to include getopt.h.
-    GNULIB_GL_UNISTD_H_GETOPT=1
-  fi
-  AC_SUBST([GNULIB_GL_UNISTD_H_GETOPT])
-  gl_MODULE_INDICATOR_FOR_TESTS([getopt-gnu])
+  dnl Because of the way gl_FUNC_GETOPT_GNU is implemented (the gl_getopt_required
+  dnl mechanism), there is no need to do any AC_LIBOBJ or AC_SUBST here; they are
+  dnl done in the getopt-posix module.
   gl_FUNC_GETOPT_POSIX
   if test $REPLACE_GETOPT = 1; then
     AC_LIBOBJ([getopt])
     AC_LIBOBJ([getopt1])
-    gl_PREREQ_GETOPT
     dnl Arrange for unistd.h to include getopt.h.
     GNULIB_GL_UNISTD_H_GETOPT=1
   fi
   AC_SUBST([GNULIB_GL_UNISTD_H_GETOPT])
+  gl_FUNC_GETPROGNAME
   dnl you must add AM_GNU_GETTEXT([external]) or similar to configure.ac.
-  AM_GNU_GETTEXT_VERSION([0.18.1])
+  AM_GNU_GETTEXT_VERSION([0.20])
   AC_SUBST([LIBINTL])
   AC_SUBST([LTLIBINTL])
   gl_HOSTENT
+  gl_HUMAN
   gl_IDPRIV
   gl_FUNC_INET_NTOP
   if test $HAVE_INET_NTOP = 0 || test $REPLACE_INET_NTOP = 1; then
@@ -268,10 +366,14 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_INET_NTOP
   fi
   gl_ARPA_INET_MODULE_INDICATOR([inet_ntop])
+  gl_INTTYPES_INCOMPLETE
   gl_LANGINFO_H
   AC_REQUIRE([gl_LARGEFILE])
+  gl___INLINE
+  gl_LIMITS_H
   gl_LOCALCHARSET
-  LOCALCHARSET_TESTS_ENVIRONMENT="CHARSETALIASDIR=\"\$(abs_top_builddir)/$gl_source_base\""
+  dnl For backward compatibility. Some packages still use this.
+  LOCALCHARSET_TESTS_ENVIRONMENT=
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
   gl_LOCALE_H
   gl_FUNC_LOCALECONV
@@ -282,11 +384,11 @@ AC_DEFUN([gl_INIT],
   gl_LOCALE_MODULE_INDICATOR([localeconv])
   gl_LOCK
   gl_MODULE_INDICATOR([lock])
-  gl_FUNC_MALLOC_GNU
-  if test $REPLACE_MALLOC = 1; then
-    AC_LIBOBJ([malloc])
+  gl_FUNC_LSEEK
+  if test $REPLACE_LSEEK = 1; then
+    AC_LIBOBJ([lseek])
   fi
-  gl_MODULE_INDICATOR([malloc-gnu])
+  gl_UNISTD_MODULE_INDICATOR([lseek])
   gl_FUNC_MALLOC_POSIX
   if test $REPLACE_MALLOC = 1; then
     AC_LIBOBJ([malloc])
@@ -307,7 +409,7 @@ AC_DEFUN([gl_INIT],
   fi
   gl_WCHAR_MODULE_INDICATOR([mbsinit])
   gl_FUNC_MBTOWC
-  if test $REPLACE_MBTOWC = 1; then
+  if test $HAVE_MBTOWC = 0 || test $REPLACE_MBTOWC = 1; then
     AC_LIBOBJ([mbtowc])
     gl_PREREQ_MBTOWC
   fi
@@ -318,6 +420,7 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_MEMCHR
   fi
   gl_STRING_MODULE_INDICATOR([memchr])
+  gl_MINMAX
   gl_FUNC_MKTIME
   if test $REPLACE_MKTIME = 1; then
     AC_LIBOBJ([mktime])
@@ -325,7 +428,7 @@ AC_DEFUN([gl_INIT],
   fi
   gl_TIME_MODULE_INDICATOR([mktime])
   gl_FUNC_MKTIME_INTERNAL
-  if test $REPLACE_MKTIME = 1; then
+  if test $WANT_MKTIME_INTERNAL = 1; then
     AC_LIBOBJ([mktime])
     gl_PREREQ_MKTIME
   fi
@@ -334,14 +437,15 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([mountlist])
     gl_PREREQ_MOUNTLIST_EXTRA
   fi
-  gl_MSVC_INVAL
+  AC_REQUIRE([gl_MSVC_INVAL])
   if test $HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1; then
     AC_LIBOBJ([msvc-inval])
   fi
-  gl_MSVC_NOTHROW
+  AC_REQUIRE([gl_MSVC_NOTHROW])
   if test $HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1; then
     AC_LIBOBJ([msvc-nothrow])
   fi
+  gl_MODULE_INDICATOR([msvc-nothrow])
   gl_MULTIARCH
   gl_HEADER_NETDB
   gl_HEADER_NETINET_IN
@@ -351,18 +455,14 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([nl_langinfo])
   fi
   gl_LANGINFO_MODULE_INDICATOR([nl_langinfo])
-  gl_FUNC_READ
-  if test $REPLACE_READ = 1; then
-    AC_LIBOBJ([read])
-    gl_PREREQ_READ
-  fi
-  gl_UNISTD_MODULE_INDICATOR([read])
+  gl_PATHMAX
+  gl_QUOTE
+  gl_QUOTEARG
   gl_REGEX
   if test $ac_use_included_regex = yes; then
     AC_LIBOBJ([regex])
     gl_PREREQ_REGEX
   fi
-  gl_PREREQ_SAFE_READ
   gl_SERVENT
   gl_FUNC_SETENV
   if test $HAVE_SETENV = 0 || test $REPLACE_SETENV = 1; then
@@ -373,10 +473,12 @@ AC_DEFUN([gl_INIT],
   gl_FUNC_SNPRINTF
   gl_STDIO_MODULE_INDICATOR([snprintf])
   gl_MODULE_INDICATOR([snprintf])
-  gl_SOCKETLIB
-  gl_SOCKETS
+  AC_REQUIRE([gl_SOCKETLIB])
+  AC_REQUIRE([gl_SOCKETS])
   gl_TYPE_SOCKLEN_T
   gt_TYPE_SSIZE_T
+  gl_STAT_TIME
+  gl_STAT_BIRTHTIME
   gl_STDALIGN_H
   AM_STDBOOL_H
   gl_STDDEF_H
@@ -439,7 +541,21 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([strstr])
   fi
   gl_STRING_MODULE_INDICATOR([strstr])
-  gl_HEADER_SYS_SOCKET
+  gl_FUNC_STRTOULL
+  if test $HAVE_STRTOULL = 0; then
+    AC_LIBOBJ([strtoull])
+    gl_PREREQ_STRTOULL
+  fi
+  gl_STDLIB_MODULE_INDICATOR([strtoull])
+  gl_FUNC_STRTOUMAX
+  if test $HAVE_DECL_STRTOUMAX = 0 || test $REPLACE_STRTOUMAX = 1; then
+    AC_LIBOBJ([strtoumax])
+    gl_PREREQ_STRTOUMAX
+  fi
+  gl_INTTYPES_MODULE_INDICATOR([strtoumax])
+  AC_REQUIRE([gl_HEADER_SYS_SOCKET])
+  AC_PROG_MKDIR_P
+  gl_HEADER_SYS_STAT_H
   AC_PROG_MKDIR_P
   gl_SYS_TYPES_H
   AC_PROG_MKDIR_P
@@ -485,6 +601,7 @@ AC_DEFUN([gl_INIT],
   gl_XALLOC
   gl_XSIZE
   gl_XSTRNDUP
+  gl_XSTRTOL
   # End of code from modules
   m4_ifval(gl_LIBSOURCES_LIST, [
     m4_syscmd([test ! -d ]m4_defn([gl_LIBSOURCES_DIR])[ ||
@@ -626,20 +743,31 @@ AC_DEFUN([gltests_LIBSOURCES], [
 # gnulib-tool and may be removed by future gnulib-tool invocations.
 AC_DEFUN([gl_FILE_LIST], [
   build-aux/config.rpath
-  build-aux/snippet/_Noreturn.h
-  build-aux/snippet/arg-nonnull.h
-  build-aux/snippet/c++defs.h
-  build-aux/snippet/warn-on-use.h
+  lib/_Noreturn.h
+  lib/af_alg.c
+  lib/af_alg.h
   lib/alloca.in.h
+  lib/arg-nonnull.h
+  lib/argmatch.c
+  lib/argmatch.h
   lib/arpa_inet.in.h
   lib/asnprintf.c
   lib/asprintf.c
+  lib/assure.h
   lib/base64.c
   lib/base64.h
   lib/basename-lgpl.c
   lib/basename.c
   lib/btowc.c
-  lib/config.charset
+  lib/byteswap.in.h
+  lib/c++defs.h
+  lib/c-ctype.c
+  lib/c-ctype.h
+  lib/c-strcase.h
+  lib/c-strcasecmp.c
+  lib/c-strcaseeq.h
+  lib/c-strncasecmp.c
+  lib/cdefs.h
   lib/dirname-lgpl.c
   lib/dirname.c
   lib/dirname.h
@@ -651,42 +779,65 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/exitfail.h
   lib/fd-hook.c
   lib/fd-hook.h
+  lib/fflush.c
   lib/float+.h
   lib/float.c
   lib/float.in.h
   lib/floor.c
   lib/floorf.c
+  lib/fpurge.c
+  lib/freading.c
+  lib/freading.h
+  lib/fseek.c
+  lib/fseeko.c
+  lib/fstat.c
   lib/fsusage.c
   lib/fsusage.h
-  lib/full-read.c
-  lib/full-read.h
-  lib/full-write.c
+  lib/ftell.c
+  lib/ftello.c
   lib/gai_strerror.c
   lib/getaddrinfo.c
+  lib/getdelim.c
   lib/gethostname.c
+  lib/getline.c
   lib/getloadavg.c
+  lib/getopt-cdefs.in.h
+  lib/getopt-core.h
+  lib/getopt-ext.h
+  lib/getopt-pfx-core.h
+  lib/getopt-pfx-ext.h
   lib/getopt.c
   lib/getopt.in.h
   lib/getopt1.c
   lib/getopt_int.h
+  lib/getprogname.c
+  lib/getprogname.h
   lib/gettext.h
+  lib/gl_openssl.h
   lib/glthread/lock.c
   lib/glthread/lock.h
   lib/glthread/threadlib.c
+  lib/hard-locale.c
+  lib/hard-locale.h
+  lib/human.c
+  lib/human.h
   lib/idpriv-droptemp.c
   lib/idpriv.h
   lib/inet_ntop.c
   lib/intprops.h
+  lib/inttypes.in.h
   lib/itold.c
   lib/langinfo.in.h
+  lib/libc-config.h
+  lib/limits.in.h
   lib/localcharset.c
   lib/localcharset.h
   lib/locale.in.h
   lib/localeconv.c
+  lib/lseek.c
   lib/malloc.c
   lib/malloca.c
   lib/malloca.h
-  lib/malloca.valgrind
   lib/math.c
   lib/math.in.h
   lib/mbrtowc.c
@@ -695,6 +846,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/mbtowc.c
   lib/memchr.c
   lib/memchr.valgrind
+  lib/minmax.h
   lib/mktime-internal.h
   lib/mktime.c
   lib/mountlist.c
@@ -706,21 +858,20 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/netdb.in.h
   lib/netinet_in.in.h
   lib/nl_langinfo.c
+  lib/pathmax.h
   lib/printf-args.c
   lib/printf-args.h
   lib/printf-parse.c
   lib/printf-parse.h
-  lib/read.c
-  lib/ref-add.sin
-  lib/ref-del.sin
+  lib/quote.h
+  lib/quotearg.c
+  lib/quotearg.h
   lib/regcomp.c
   lib/regex.c
   lib/regex.h
   lib/regex_internal.c
   lib/regex_internal.h
   lib/regexec.c
-  lib/safe-read.c
-  lib/safe-read.h
   lib/setenv.c
   lib/sha1.c
   lib/sha1.h
@@ -728,10 +879,15 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/snprintf.c
   lib/sockets.c
   lib/sockets.h
+  lib/stat-time.c
+  lib/stat-time.h
+  lib/stat-w32.c
+  lib/stat-w32.h
   lib/stdalign.in.h
   lib/stdbool.in.h
   lib/stddef.in.h
   lib/stdint.in.h
+  lib/stdio-impl.h
   lib/stdio.in.h
   lib/stdlib.in.h
   lib/str-two-way.h
@@ -749,8 +905,15 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/strnlen.c
   lib/strsep.c
   lib/strstr.c
+  lib/strtoimax.c
+  lib/strtol.c
+  lib/strtoul.c
+  lib/strtoull.c
+  lib/strtoumax.c
+  lib/sys-limits.h
   lib/sys_socket.c
   lib/sys_socket.in.h
+  lib/sys_stat.in.h
   lib/sys_types.in.h
   lib/sys_uio.in.h
   lib/time.in.h
@@ -759,12 +922,14 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unistd.c
   lib/unistd.in.h
   lib/unsetenv.c
+  lib/unused-parameter.h
   lib/vasnprintf.c
   lib/vasnprintf.h
   lib/vasprintf.c
   lib/verify.h
   lib/vsnprintf.c
   lib/w32sock.h
+  lib/warn-on-use.h
   lib/wchar.in.h
   lib/wcrtomb.c
   lib/wctype-h.c
@@ -777,13 +942,22 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/xsize.h
   lib/xstrndup.c
   lib/xstrndup.h
+  lib/xstrtol-error.c
+  lib/xstrtol.c
+  lib/xstrtol.h
+  lib/xstrtoul.c
+  lib/xstrtoumax.c
   m4/00gnulib.m4
+  m4/__inline.m4
+  m4/absolute-header.m4
+  m4/af_alg.m4
   m4/alloca.m4
   m4/arpa_inet_h.m4
   m4/base64.m4
   m4/btowc.m4
+  m4/builtin-expect.m4
+  m4/byteswap.m4
   m4/codeset.m4
-  m4/configmake.m4
   m4/dirname.m4
   m4/double-slash-root.m4
   m4/eealloc.m4
@@ -793,38 +967,47 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/exponentd.m4
   m4/extensions.m4
   m4/extern-inline.m4
-  m4/fcntl-o.m4
+  m4/fflush.m4
   m4/float_h.m4
   m4/floorf.m4
+  m4/fpurge.m4
+  m4/freading.m4
+  m4/fseek.m4
+  m4/fseeko.m4
+  m4/fstat.m4
   m4/fstypename.m4
   m4/fsusage.m4
+  m4/ftell.m4
+  m4/ftello.m4
   m4/getaddrinfo.m4
+  m4/getdelim.m4
   m4/gethostname.m4
+  m4/getline.m4
   m4/getloadavg.m4
   m4/getopt.m4
+  m4/getprogname.m4
   m4/gettext.m4
-  m4/glibc2.m4
+  m4/gl-openssl.m4
   m4/glibc21.m4
   m4/gnulib-common.m4
+  m4/host-cpu-c-abi.m4
   m4/hostent.m4
+  m4/human.m4
   m4/iconv.m4
   m4/idpriv.m4
   m4/include_next.m4
   m4/inet_ntop.m4
-  m4/intdiv0.m4
-  m4/intl.m4
-  m4/intldir.m4
+  m4/intl-thread-locale.m4
   m4/intlmacosx.m4
-  m4/intmax.m4
   m4/intmax_t.m4
-  m4/inttypes-pri.m4
+  m4/inttypes.m4
   m4/inttypes_h.m4
   m4/langinfo_h.m4
   m4/largefile.m4
-  m4/lcmessage.m4
   m4/lib-ld.m4
   m4/lib-link.m4
   m4/lib-prefix.m4
+  m4/limits-h.m4
   m4/localcharset.m4
   m4/locale-fr.m4
   m4/locale-ja.m4
@@ -833,7 +1016,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/localeconv.m4
   m4/lock.m4
   m4/longlong.m4
-  m4/ls-mntd-fs.m4
+  m4/lseek.m4
   m4/malloc.m4
   m4/malloca.m4
   m4/math_h.m4
@@ -842,6 +1025,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/mbstate_t.m4
   m4/mbtowc.m4
   m4/memchr.m4
+  m4/minmax.m4
   m4/mktime.m4
   m4/mmap-anon.m4
   m4/mountlist.m4
@@ -854,14 +1038,14 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/nls.m4
   m4/nocrash.m4
   m4/off_t.m4
-  m4/onceonly.m4
+  m4/pathmax.m4
   m4/po.m4
-  m4/printf-posix.m4
   m4/printf.m4
   m4/progtest.m4
-  m4/read.m4
+  m4/pthread_rwlock_rdlock.m4
+  m4/quote.m4
+  m4/quotearg.m4
   m4/regex.m4
-  m4/safe-read.m4
   m4/servent.m4
   m4/setenv.m4
   m4/sha1.m4
@@ -872,6 +1056,8 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/socklen.m4
   m4/sockpfaf.m4
   m4/ssize_t.m4
+  m4/stat-time.m4
+  m4/std-gnu11.m4
   m4/stdalign.m4
   m4/stdbool.m4
   m4/stddef_h.m4
@@ -888,18 +1074,19 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/strnlen.m4
   m4/strsep.m4
   m4/strstr.m4
+  m4/strtoull.m4
+  m4/strtoumax.m4
   m4/sys_socket_h.m4
+  m4/sys_stat_h.m4
   m4/sys_types_h.m4
   m4/sys_uio_h.m4
   m4/threadlib.m4
   m4/time_h.m4
   m4/time_r.m4
   m4/timegm.m4
-  m4/uintmax_t.m4
   m4/unistd_h.m4
   m4/vasnprintf.m4
   m4/vasprintf.m4
-  m4/visibility.m4
   m4/vsnprintf.m4
   m4/warn-on-use.m4
   m4/wchar_h.m4
@@ -910,4 +1097,5 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/xalloc.m4
   m4/xsize.m4
   m4/xstrndup.m4
+  m4/xstrtol.m4
 ])

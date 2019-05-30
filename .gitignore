@@ -10,6 +10,7 @@ NP-VERSION-FILE
 *.o
 *.swp
 *.rej
+*~
 
 # /
 /aclocal.m4
